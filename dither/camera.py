@@ -340,12 +340,12 @@ class Camera:
 		then returned as a Camera object.
 
 		Parameters:
-			camera : *camera.Camera object*
+			camera : *camera.Camera* object
 				An object from the camera.Camera class containing a *poly* 
 				and a *coordsList*.
 
 		Returns:
-			camera : *camera.Camera object*
+			camera : *camera.Camera* object
 				An object from the camera.Camera class that is the 
 				intersection between this Camera and the *camera* 
 				parameter.
@@ -361,12 +361,12 @@ class Camera:
 		then returned as a Camera object.
 
 		Parameters:
-			camera : *camera.Camera object*
+			camera : *camera.Camera* object
 				An object from the camera.Camera class containing a *poly* 
 				and a *coordsList*.
 
 		Returns:
-			camera : *camera.Camera object*
+			camera : *camera.Camera* object
 				An object from the camera.Camera class that is the 
 				union between this Camera and the *camera* 
 				parameter.
@@ -382,12 +382,12 @@ class Camera:
 		then returned as a Camera object.
 
 		Parameters:
-			camera : *camera.Camera object*
+			camera : *camera.Camera* object
 				An object from the camera.Camera class containing a *poly* 
 				and a *coordsList*.
 
 		Returns:
-			camera : *camera.Camera object*
+			camera : *camera.Camera* object
 				An object from the camera.Camera class that is the 
 				difference between this Camera and the *camera* 
 				parameter.
