@@ -10,7 +10,6 @@ from shapely.ops import cascaded_union
 from descartes import PolygonPatch
 
 class Camera:
-
 	"""
 	Class for collection and manipulation of a camera's CCD corner
 	coordinates. A list of CCD corner coordinates is inputted as a 
