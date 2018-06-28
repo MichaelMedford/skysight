@@ -11,7 +11,7 @@ LICENSE = 'MIT License'
 import dither
 VERSION = dither.__version__
 
-from distutils.core import setup
+from setuptools import setup
 
 if __name__ == "__main__":
         
@@ -25,6 +25,7 @@ if __name__ == "__main__":
           license=LICENSE,
           url=URL,
           version=VERSION,
+          install_requires=['numpy','matplotlib','astropy','shapely','descartes'],
           packages=['dither'],
           package_data={'dither': ['data/*']},
           classifiers=[
