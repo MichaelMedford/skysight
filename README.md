@@ -9,3 +9,10 @@ git clone https://github.com/MichaelMedford/dither.git
 cd dither
 python setup.py install
 ```
+
+# Testing
+
+Confirm that all packages are correctly installed.
+```bash
+python checks.py
+```
