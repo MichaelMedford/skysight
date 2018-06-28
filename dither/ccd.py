@@ -336,7 +336,7 @@ class Camera:
 		Parameters:
 			camera : *camera.Camera object*
 				An object from the camera.Camera class containing a *poly* 
-				and a "*coords_list".
+				and a *coords_list*.
 
 		Returns:
 			camera : *camera.Camera object*
@@ -357,7 +357,7 @@ class Camera:
 		Parameters:
 			camera : *camera.Camera object*
 				An object from the camera.Camera class containing a *poly* 
-				and a "*coords_list".
+				and a *coords_list*.
 
 		Returns:
 			camera : *camera.Camera object*
@@ -378,7 +378,7 @@ class Camera:
 		Parameters:
 			camera : *camera.Camera object*
 				An object from the camera.Camera class containing a *poly* 
-				and a "*coords_list".
+				and a *coords_list*.
 
 		Returns:
 			camera : *camera.Camera object*
