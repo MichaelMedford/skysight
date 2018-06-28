@@ -196,25 +196,25 @@ class Camera:
 		self.poly = affinity.rotate(self.poly, degrees)
 		self.expand_ra()
 
-	def translate(self, ra_offset = 0, dec_offset = 0):
+	def translate(self, raOffset = 0, decOffset = 0):
 		"""
-		Translates the Camera's *poly* by *ra_offset* and *dec_offset*. 
+		Translates the Camera's *poly* by *raOffset* and *decOffset*. 
 		Prior to and after rotation, the Camera's *poly* is adjusted 
 		to account for spherical  distrotion effects at different 
 		declinations.
 
 		Parameters:
-			ra_offset : *float*
+			raOffset : *float*
 				The number of degrees by which to translate *poly* in 
 				right ascension.
-			dec_offset : *float*
+			decOffset : *float*
 				The number of degrees by which to translate *poly* in 
 				declination.
 		"""
 		self.collapse_ra()
 		self.poly = affinity.translate(self.poly,
-									   xoff=ra_offset,
-									   yoff=dec_offset)
+									   xoff = raOffset,
+									   yoff = decOffset)
 		self.expand_ra()
 
 	def get_radius(self):
@@ -431,7 +431,7 @@ class Camera:
 			2) For multiple Camera objects
 				camera = Camera(coords_list)
 				camera2 = Camera(coords_list)
-				camera2.translate(ra_offset=1.0)
+				camera2.translate(raOffset=1.0)
 				fig,ax = plt.subplots()
 				camera.plot(ax, color='g', alpha=0.3, xlim=(-2,2), ylim=(-2,2))
 				camera2.plot(ax, color='b', alpha=0.3, xlim=(-2,2), ylim=(-2,2))
