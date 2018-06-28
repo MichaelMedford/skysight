@@ -9,6 +9,12 @@ from shapely import affinity
 from shapely.ops import cascaded_union
 from descartes import PolygonPatch
 
+##############################
+#                            #
+#  Camera Class              #
+#                            #
+##############################
+
 class Camera:
 	"""
 	Class for collection and manipulation of a camera's CCD corner
@@ -446,6 +452,12 @@ class Camera:
 			ax.set_ylim(ylim_poly)
 		else:
 			ax.set_ylim(ylim)
+
+##############################
+#                            #
+#  Return Known Cameras      #
+#                            #
+##############################
 
 def return_macho_camera():
 	"""
