@@ -93,7 +93,7 @@ class Camera():
 
 	def expand_ra(self):
 		centroid = self.get_center()
-		CCDS = []
+		polys = []
 		for coords in self.coords_list:
 			new_coords = []
 			for (coord_x,coord_y) in coords:
@@ -101,12 +101,12 @@ class Camera():
 				coord_x /= np.cos(np.radians(coord_y))
 				coord_x += centroid[0]
 				new_coords.append((coord_x,coord_y))
-			CCDS.append(geometry.Polygon(new_coords))
-		self.poly = cascaded_union(CCDS)
+			polys.append(geometry.Polygon(new_coords))
+		self.poly = cascaded_union(polys)
 
 	def collapse_ra(self):
 		centroid = self.get_center()
-		CCDS = []
+		polys = []
 		for coords in self.coords_list:
 			new_coords = []
 			for (coord_x,coord_y) in coords:
@@ -114,8 +114,8 @@ class Camera():
 				coord_x *= np.cos(np.radians(coord_y))
 				coord_x += centroid[0]
 				new_coords.append((coord_x,coord_y))
-			CCDS.append(geometry.Polygon(new_coords))
-		self.poly = cascaded_union(CCDS)
+			polys.append(geometry.Polygon(new_coords))
+		self.poly = cascaded_union(polys)
 
 	def rotate(self, degrees=0):
 		self.collapse_ra()
