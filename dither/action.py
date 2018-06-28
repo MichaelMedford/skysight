@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 #
 
-""" Actions to be applied to a list of CCDs. """
+""" Actions to be applied to a list of Camera CCDs. """
 
 class Action():
 

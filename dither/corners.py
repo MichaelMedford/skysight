@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 #
 
-""" Load corners of various telescope cameras. """
+""" Load Camera CCD corners of various telescope cameras. """
 
 import os
 
