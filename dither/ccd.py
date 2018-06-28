@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 #
 
-""" Loading and containing corners of CCDs. """
+""" Loading, transforming and comparing the corners of Camera CCDs."""
 
 import numpy as np
 from shapely import geometry
