@@ -443,22 +443,31 @@ class Camera:
 			ax.set_ylim(ylim)
 
 def return_macho_ccd():
-
+	"""
+	Returns the CCD coordinates of the MACHO camera as a ccd.Camera 
+	object.
+	"""
 	from dither import corners
 	corners = corners.load_macho_corners()
 	ccd = Camera([corners], name='macho')
 	return ccd
 
 def return_hsc_ccd():
-
+	"""
+	Returns the CCD coordinates of the Hyper-Supreme Camera as a 
+	ccd.Camera object.
+	"""
 	from dither import corners
 	corners = corners.load_hsc_corners()
-	ccd = Camera([corners], name='hsc')
+	ccd = Camera(corners, name='hsc')
 	return ccd
 
 def return_decam_ccd():
-
+	"""
+	Returns the CCD coordinates of the Dark Energy Camera as a 
+	ccd.Camera object.
+	"""
 	from dither import corners
 	corners = corners.load_decam_corners()
-	ccd = Camera([corners], name='decam')
+	ccd = Camera(corners, name='decam')
 	return ccd
