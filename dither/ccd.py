@@ -37,11 +37,11 @@ class Camera:
 		1) For a *coord_list* of two CCDs:
 			coords_list = [ [(0,0),(0,1),(1,1),(1,0)],
 						[(2,2),(2,3),(3,3),(3,2)] ]
-			ccd = Camera(coords_list)
+			camera = Camera(coords_list)
 
 		2) For a *coord_list* of one CCD.
 			coords_list = [ [(0,0),(0,1),(1,1),(1,0)] ]
-			ccd = Camera(coords_list)
+			camera = Camera(coords_list)
 	"""
 	def __init__(self, coords_list, name = None):
 
@@ -334,13 +334,13 @@ class Camera:
 		then returned as a Camera object.
 
 		Parameters:
-			camera : *ccd.Camera object*
-				An object from the ccd.Camera class containing a *poly* 
+			camera : *camera.Camera object*
+				An object from the camera.Camera class containing a *poly* 
 				and a "*coords_list".
 
 		Returns:
-			camera : *ccd.Camera object*
-				An object from the ccd.Camera class that is the 
+			camera : *camera.Camera object*
+				An object from the camera.Camera class that is the 
 				intersection between this Camera and the *camera* 
 				parameter.
 		"""
@@ -355,13 +355,13 @@ class Camera:
 		then returned as a Camera object.
 
 		Parameters:
-			camera : *ccd.Camera object*
-				An object from the ccd.Camera class containing a *poly* 
+			camera : *camera.Camera object*
+				An object from the camera.Camera class containing a *poly* 
 				and a "*coords_list".
 
 		Returns:
-			camera : *ccd.Camera object*
-				An object from the ccd.Camera class that is the 
+			camera : *camera.Camera object*
+				An object from the camera.Camera class that is the 
 				union between this Camera and the *camera* 
 				parameter.
 		"""
@@ -376,13 +376,13 @@ class Camera:
 		then returned as a Camera object.
 
 		Parameters:
-			camera : *ccd.Camera object*
-				An object from the ccd.Camera class containing a *poly* 
+			camera : *camera.Camera object*
+				An object from the camera.Camera class containing a *poly* 
 				and a "*coords_list".
 
 		Returns:
-			camera : *ccd.Camera object*
-				An object from the ccd.Camera class that is the 
+			camera : *camera.Camera object*
+				An object from the camera.Camera class that is the 
 				difference between this Camera and the *camera* 
 				parameter.
 		"""
@@ -418,17 +418,17 @@ class Camera:
 
 		Example:
 			1) For a single Camera object
-				ccd = Camera(coords_list)
+				camera = Camera(coords_list)
 				fig,ax = plt.subplots()
-				ccd.plot(ax, color='g', alpha=0.3)
+				camera.plot(ax, color='g', alpha=0.3)
 
 			2) For multiple Camera objects
-				ccd = Camera(coords_list)
-				ccd2 = Camera(coords_list)
-				ccd2.translate(ra_offset=1.0)
+				camera = Camera(coords_list)
+				camera2 = Camera(coords_list)
+				camera2.translate(ra_offset=1.0)
 				fig,ax = plt.subplots()
-				ccd.plot(ax, color='g', alpha=0.3, xlim=(-2,2), ylim=(-2,2))
-				ccd2.plot(ax, color='b', alpha=0.3, xlim=(-2,2), ylim=(-2,2))
+				camera.plot(ax, color='g', alpha=0.3, xlim=(-2,2), ylim=(-2,2))
+				camera2.plot(ax, color='b', alpha=0.3, xlim=(-2,2), ylim=(-2,2))
 		"""
 		ax.add_patch(PolygonPatch(self.poly,
 								  fc = color,
@@ -447,32 +447,32 @@ class Camera:
 		else:
 			ax.set_ylim(ylim)
 
-def return_macho_ccd():
+def return_macho_camera():
 	"""
-	Returns the CCD coordinates of the MACHO camera as a ccd.Camera 
+	Returns the CCD coordinates of the MACHO camera as a camera.Camera 
 	object.
 	"""
 	from dither import corners
 	corners = corners.load_macho_corners()
-	ccd = Camera([corners], name = 'macho')
-	return ccd
+	camera = Camera([corners], name = 'macho')
+	return camera
 
-def return_hsc_ccd():
+def return_hsc_camera():
 	"""
 	Returns the CCD coordinates of the Hyper-Supreme Camera as a 
-	ccd.Camera object.
+	camera.Camera object.
 	"""
 	from dither import corners
 	corners = corners.load_hsc_corners()
-	ccd = Camera(corners, name = 'hsc')
-	return ccd
+	camera = Camera(corners, name = 'hsc')
+	return camera
 
-def return_decam_ccd():
+def return_decam_camera():
 	"""
 	Returns the CCD coordinates of the Dark Energy Camera as a 
-	ccd.Camera object.
+	camera.Camera object.
 	"""
 	from dither import corners
 	corners = corners.load_decam_corners()
-	ccd = Camera(corners, name = 'decam')
-	return ccd
+	camera = Camera(corners, name = 'decam')
+	return camera
