@@ -175,18 +175,18 @@ class Camera():
 		return (np.mean(centroid_x_list),np.mean(centroid_y_list))
 
 	def intersect(self, Camera):
-		Camera_intersect_poly = self.poly.intersection(Camera.poly)
-		coords_list = self._get_coords_list(Camera_intersect_poly)
+		intersect_poly = self.poly.intersection(Camera.poly)
+		coords_list = self._get_coords_list(intersect_poly)
 		return Camera(coords_list)
 
 	def union(self, Camera):
-		Camera_union_poly = cascaded_union([self.poly,Camera.poly])
-		coords_list = self._get_coords_list(Camera_union_poly)
+		union_poly = cascaded_union([self.poly,Camera.poly])
+		coords_list = self._get_coords_list(union_poly)
 		return Camera(coords_list)
 
 	def difference(self, CCD):
-		Camera_difference_poly = self.poly.difference(Camera.poly)
-		coords_list = self._get_coords_list(Camera_difference_poly)
+		difference_poly = self.poly.difference(Camera.poly)
+		coords_list = self._get_coords_list(difference_poly)
 		return Camera(coords_list)
 
 	def plot(self, ax, color='k', alpha=0.5, xlim=None, ylim=None):
