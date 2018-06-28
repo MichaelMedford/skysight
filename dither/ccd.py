@@ -30,19 +30,18 @@ class Camera:
 			2) Each CCD in the *coords_list* must contain at least three 
 			   corners.
 			4) The CCDs in the *coords_list* CANNOT overlap.
-
-			Example:
-			1) For a *coord_list* of two CCDs:
-				coords_list = [ [(0,0),(0,1),(1,1),(1,0)],
-								[(2,2),(2,3),(3,3),(3,2)] ]
-				ccd = Camera(coords_list)
-
-			2) For a *coord_list* of one CCD:
-				coords_list = [ [(0,0),(0,1),(1,1),(1,0)] ]
-				ccd = Camera(coords_list)
-
 		name : *str*, optional
 			Name by which to identify a Camera.
+
+	Examples:
+		1) For a *coord_list* of two CCDs:
+			coords_list = [ [(0,0),(0,1),(1,1),(1,0)],
+						[(2,2),(2,3),(3,3),(3,2)] ]
+			ccd = Camera(coords_list)
+
+		2) For a *coord_list* of one CCD:
+			coords_list = [ [(0,0),(0,1),(1,1),(1,0)] ]
+			ccd = Camera(coords_list)
 	"""
 	def __init__(self, coords_list, name=None):
 
