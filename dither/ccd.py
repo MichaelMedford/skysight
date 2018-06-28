@@ -39,11 +39,11 @@ class Camera:
 						[(2,2),(2,3),(3,3),(3,2)] ]
 			ccd = Camera(coords_list)
 
-		2) For a *coord_list* of one CCD:
+		2) For a *coord_list* of one CCD.
 			coords_list = [ [(0,0),(0,1),(1,1),(1,0)] ]
 			ccd = Camera(coords_list)
 	"""
-	def __init__(self, coords_list, name=None):
+	def __init__(self, coords_list, name = None):
 
 		if not isinstance(coords_list[0], list):
 			raise TypeError ('coords_list must be a list of coordinates '
@@ -190,7 +190,7 @@ class Camera:
 		self.poly = affinity.rotate(self.poly, degrees)
 		self.expand_ra()
 
-	def translate(self, ra_offset=0, dec_offset=0):
+	def translate(self, ra_offset = 0, dec_offset = 0):
 		"""
 		Translates the Camera's *poly* by *ra_offset* and *dec_offset*. 
 		Prior to and after rotation, the Camera's *poly* is adjusted 
@@ -223,7 +223,8 @@ class Camera:
 		radius_list = []
 		for coords in self.coords_list:
 			for coord in coords:
-				radius = np.sqrt((coord[0]-center[0])**2. + (coord[1]-center[1])**2.)
+				radius = np.sqrt( (coord[0] - center[0])**2. + 
+								  (coord[1] - center[1])**2. )
 				radius_list.append(radius)
 		return np.max(radius_list)
 
@@ -266,7 +267,7 @@ class Camera:
 
 		return ra_lim, dec_lim
 
-	def get_center(self, ra_offset=0, dec_offset=0):
+	def get_center(self, ra_offset = 0, dec_offset = 0):
 		"""
 		Returns the geometric center of the smallest box which could 
 		surround all of the polygons in the Camera's *poly*. The center 
@@ -287,11 +288,11 @@ class Camera:
 				Two floats at the center location of the Camera's *poly*.
 		"""
 		bounds = self.poly.bounds
-		center_ra = np.mean([bounds[0],bounds[2]]) + ra_offset
-		center_dec = np.mean([bounds[1],bounds[3]]) + dec_offset
+		center_ra = np.mean([bounds[0], bounds[2]]) + ra_offset
+		center_dec = np.mean([bounds[1], bounds[3]]) + dec_offset
 		return center_ra, center_dec
 
-	def get_centroid(self, ra_offset=0, dec_offset=0):
+	def get_centroid(self, ra_offset = 0, dec_offset = 0):
 		"""
 		Returns the geometric centroid of the Camera's *poly*, as 
 		calculated by the Shapely package. The centroid is returned in 
@@ -389,7 +390,11 @@ class Camera:
 		coords_list = self._get_coords_list(difference_poly)
 		return Camera(coords_list)
 
-	def plot(self, ax, color='k', alpha=0.5, xlim=None, ylim=None):
+	def plot(self, ax,
+				   color = 'k',
+				   alpha = 0.5,
+				   xlim = None,
+				   ylim = None):
 		"""
 		Plots the Camera's *poly* onto an axis object from Matplotlib. 
 		The user can specify the color and transparency of *poly*. Unless 
@@ -425,10 +430,12 @@ class Camera:
 				ccd.plot(ax, color='g', alpha=0.3, xlim=(-2,2), ylim=(-2,2))
 				ccd2.plot(ax, color='b', alpha=0.3, xlim=(-2,2), ylim=(-2,2))
 		"""
-		ax.add_patch(PolygonPatch(self.poly, fc=color, alpha=alpha))
+		ax.add_patch(PolygonPatch(self.poly,
+								  fc = color,
+								  alpha = alpha))
 
 		if xlim == None or ylim == None:
-			xlim_poly,ylim_poly = self.get_limits()
+			xlim_poly, ylim_poly = self.get_limits()
 
 		if xlim == None:
 			ax.set_xlim(xlim_poly)
@@ -447,7 +454,7 @@ def return_macho_ccd():
 	"""
 	from dither import corners
 	corners = corners.load_macho_corners()
-	ccd = Camera([corners], name='macho')
+	ccd = Camera([corners], name = 'macho')
 	return ccd
 
 def return_hsc_ccd():
@@ -457,7 +464,7 @@ def return_hsc_ccd():
 	"""
 	from dither import corners
 	corners = corners.load_hsc_corners()
-	ccd = Camera(corners, name='hsc')
+	ccd = Camera(corners, name = 'hsc')
 	return ccd
 
 def return_decam_ccd():
@@ -467,5 +474,5 @@ def return_decam_ccd():
 	"""
 	from dither import corners
 	corners = corners.load_decam_corners()
-	ccd = Camera(corners, name='decam')
+	ccd = Camera(corners, name = 'decam')
 	return ccd
