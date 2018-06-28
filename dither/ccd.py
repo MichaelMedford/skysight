@@ -21,6 +21,7 @@ class Camera():
 			Coordinates are (x, y) numeric pairs
 			Each CCD must contain at least three corners.
 			The coords_list must contain at least one CCD.
+			The coords_list CANNOT contain overlapping corners.
 
 			Example:
 				coords_list = [ [(0,0),(0,1),(1,1),(1,0)],
@@ -33,14 +34,20 @@ class Camera():
 			raise TypeError ('coords_list must be a list of coordinates '
 							 'for the corners of each CCD in the camera.')
 
-		CCDS = []
+		# Connect together all of the corners of the CCDs
+		polys = []
 		for coords in coords_list:
-			CCDS.append(geometry.Polygon(coords))
-		self.set_poly(cascaded_union(CCDS))
-		self.name=name
+			polys.append(geometry.Polygon(coords))
+		self.poly = cascaded_union(ccds)
+		self.name = name
 
-	def set_poly(self, poly):
-		self.poly = poly
+	@property
+	def poly(self):
+		return self._poly
+	
+	@poly.setter
+	def poly(self, new_poly):
+		self._poly = new_poly
 		self.coords_list = self.get_coords_list()
 
 	def get_coords_list(self):
@@ -95,7 +102,7 @@ class Camera():
 				coord_x += centroid[0]
 				new_coords.append((coord_x,coord_y))
 			CCDS.append(geometry.Polygon(new_coords))
-		self.set_poly(cascaded_union(CCDS))
+		self.poly = cascaded_union(CCDS)
 
 	def collapse_ra(self):
 		centroid = self.get_center()
@@ -108,16 +115,16 @@ class Camera():
 				coord_x += centroid[0]
 				new_coords.append((coord_x,coord_y))
 			CCDS.append(geometry.Polygon(new_coords))
-		self.set_poly(cascaded_union(CCDS))
+		self.poly = cascaded_union(CCDS)
 
 	def rotate(self, degrees=0):
 		self.collapse_ra()
-		self.set_poly(affinity.rotate(self.poly, degrees))
+		self.poly = affinity.rotate(self.poly, degrees)
 		self.expand_ra()
 
 	def translate(self, xoff=0, yoff=0):
 		self.collapse_ra()
-		self.set_poly(affinity.translate(self.poly, xoff, yoff))
+		self.poly = affinity.translate(self.poly, xoff, yoff)
 		self.expand_ra()
 
 	def get_radius(self):
@@ -169,20 +176,20 @@ class Camera():
 					centroid_y_list.append(y)
 		return (np.mean(centroid_x_list),np.mean(centroid_y_list))
 
-	def intersect(self, CCD):
-		CCD_intersect_poly = self.poly.intersection(CCD.poly)
-		coords_list = self._get_coords_list(CCD_intersect_poly)
-		return CCD(coords_list)
+	def intersect(self, Camera):
+		Camera_intersect_poly = self.poly.intersection(Camera.poly)
+		coords_list = self._get_coords_list(Camera_intersect_poly)
+		return Camera(coords_list)
 
-	def union(self, CCD):
-		CCD_union_poly = cascaded_union([self.poly,CCD.poly])
-		coords_list = self._get_coords_list(CCD_union_poly)
-		return CCD(coords_list)
+	def union(self, Camera):
+		Camera_union_poly = cascaded_union([self.poly,Camera.poly])
+		coords_list = self._get_coords_list(Camera_union_poly)
+		return Camera(coords_list)
 
 	def difference(self, CCD):
-		CCD_difference_poly = self.poly.difference(CCD.poly)
-		coords_list = self._get_coords_list(CCD_difference_poly)
-		return CCD(coords_list)
+		Camera_difference_poly = self.poly.difference(Camera.poly)
+		coords_list = self._get_coords_list(Camera_difference_poly)
+		return Camera(coords_list)
 
 	def plot(self, ax, color='k', alpha=0.5, xlim=None, ylim=None):
 
@@ -205,19 +212,19 @@ def return_macho_ccd():
 
 	from dither import corners
 	corners = corners.load_macho_corners()
-	ccd = CCD([corners], name='macho')
+	ccd = Camera([corners], name='macho')
 	return ccd
 
 def return_hsc_ccd():
 
 	from dither import corners
 	corners = corners.load_hsc_corners()
-	ccd = CCD([corners], name='hsc')
+	ccd = Camera([corners], name='hsc')
 	return ccd
 
 def return_decam_ccd():
 
 	from dither import corners
 	corners = corners.load_decam_corners()
-	ccd = CCD([corners], name='decam')
+	ccd = Camera([corners], name='decam')
 	return ccd
