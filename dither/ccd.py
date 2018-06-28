@@ -9,12 +9,30 @@ from shapely import affinity
 from shapely.ops import cascaded_union
 from descartes import PolygonPatch
 
-class CCD():
+class Camera():
 
-	""" Collection of CCD corner coordinates. """
+	"""
+	Class for collection and manipulation of camera's CCD corner
+	coordinates.
+
+	Attributes :
+		coords_list: *list*
+			List of coordinates for the corners of each CCD in the camera.
+			Coordinates are (x, y) numeric pairs
+			Each CCD must contain at least three corners.
+			The coords_list must contain at least one CCD.
+
+			Example:
+				coords_list = [ [(0,0),(0,1),(1,1),(1,0)],
+								[(2,2),(2,3),(3,3),(3,2)] ]
+	"""
 
 	def __init__(self, coords_list, name=None):
-		# coords: A sequence of (x, y) numeric coordinate pairs
+
+		if not isinstance(coords_list[0], list):
+			raise TypeError ('coords_list must be a list of coordinates '
+							 'for the corners of each CCD in the camera.')
+
 		CCDS = []
 		for coords in coords_list:
 			CCDS.append(geometry.Polygon(coords))
