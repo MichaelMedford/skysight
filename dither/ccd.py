@@ -68,8 +68,6 @@ class Camera():
 			for x,y in poly.exterior.coords:
 				coords.append((x,y))
 			coords_list = [coords]
-		else:
-			print(poly.type)
 
 		return coords_list
 
