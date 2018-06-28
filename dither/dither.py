@@ -25,7 +25,7 @@ class Dither:
 	Examples:
 		1) Applying a Dither to a single camera:
 			dither = Dither(degrees = 10, raOffset = 0.1, decOffset = -0.2)
-			camera = Camera(coords_list)
+			camera = Camera(coordsList)
 			dither.apply(camera)
 
 		1) Applying a Dither to a list of cameras:
@@ -35,7 +35,7 @@ class Dither:
 			
 			camera_list = []
 			for dither in dither_list:
-				camera = Camera(coords_list)
+				camera = Camera(coordsList)
 				dither.apply(camera)
 				camera_list.append(camera)
 	"""
@@ -50,9 +50,9 @@ class Dither:
 		Applies the attributes of the Dither to the *camera*.
 
 		Parameters:
-			camera : *camera.Camera object*
+			camera : *camera.Camera* object
 				An object from the camera.Camera class containing a *poly* 
-				and a *coords_list*.
+				and a *coordsList*.
 		"""
 		camera.rotate(degrees = self.degrees)
 		camera.translate(raOffset = self.raOffset,
@@ -60,66 +60,115 @@ class Dither:
 
 def return_intersect(cameraList):
 	"""
-	Calculates the intersection of the Camera objects in the *camera_list*.
-	Function returns None if there exists no intersection.
+	Calculates the intersection of the Camera objects in the *cameraList*.
+	Function returns an empty Camera if there exists no intersection.
 
 	Parameters:
-		cameraList : *camera.Camera object*
-			An object from the camera.Camera class containing a *poly* 
-			and a *coords_list*.
+		cameraList : *list* of *camera.Camera* objects
+			A list of cameras from the camera.Camera class, each containing 
+			a *poly* and a *coordsList*.
 
 	Returns:
-		camera : *camera.Camera object*
+		intersectCam : *camera.Camera* object
 			An object from the camera.Camera class that is the 
-			difference between this Camera and the *camera* 
-			parameter.
+			intersection between all cameras in the cameraList. If there 
+			exists no interesction between any cameras in the camerList, 
+			an empty Camera will be returned.
 	"""
-
-	intersect = None
-	for camera in camera_list:
-		if intersect == None:
-			intersect = c
+	intersectCam = None
+	for camera in cameraList:
+		if intersectCam == None: # Initiates the intersectCam variable
+			intersectCam = camera
 		else:
-			intersect = intersect.intersect(camera)
+			intersectCam = intersectCam.intersect(camera)
 
-	if intersect == None:
-		from dither.camera import Camera
-		intersect = Camera([[(0,0),(0,0),(0,0)]])
+	return intersectCam
 
-	return intersect
+def return_union(cameraList, excludeList = None):
+	"""
+	Calculates the union of the Camera objects in the *cameraList*. 
+	An excludeList can be provided which can be skipped over. 
+	The function returns an empty Camera if there exists no union, which 
+	can only occur when all cameras in the cameraList are included in the 
+	excludeList.
 
-def return_union(camera_list, exclude_camera_list):
+	Parameters:
+		cameraList : *list* of *camera.Camera* objects
+			A list of cameras from the camera.Camera class, each containing 
+			a *poly* and a *coordsList*.
+		excludeList : *list* of *camera.Camera* objects
+			A list of cameras from the camera.Camera class, each containing 
+			a *poly* and a *coordsList*. These cameras will not be included 
+			in the calculated camera union.
 
-	union = None
-	for camera in camera_list:
-		if camera in exclude_camera_list:
+	Returns:
+		intersect : *camera.Camera* object
+			An object from the camera.Camera class that is the 
+			union between all cameras in the cameraList, excluding the 
+			cameras in the excludeList.
+	"""
+	unionCam = None
+	for camera in cameraList:
+		if excludeList is not None and camera in excludeList:
+			# Skip the camera if it is in the excludeList
 			continue
-		if union == None:
-			union = camera
+		if unionCam == None: # Initiates the unionCam variable
+			unionCam = camera
 		else:
-			union = union.union(c)
+			unionCam = unionCam.union(c)
 
-	if union == None:
-		from dither.camera import Camera
-		union = Camera([[(0,0),(0,0),(0,0)]])
+	# If not union has been found, return an empty Camera
+	if unionCam == None:
+		from dither.camera import emptyCamera
+		unionCam = emptyCamera
 
-	return union
+	return unionCam
 
-def return_exposure_area(coords_list, action_list):
+def return_ditherDict(camera, ditherList):
+	"""
+	Returns a dictionary with the amount of area which is overlapping for 
+	each number of exposures in the dither.
 
-	dims = len(action_list)
+	Parameters:
+		camera : *camera.Camera*
+			A camera which will be run through the ditherList.
+		ditherList : *list* of *camera.Camera* objects
+			A list of cameras from the camera.Camera class, each containing 
+			a *poly* and a *coordsList*. These cameras will not be included 
+			in the calculated camera union.
 
-	CCD_list = []
+	Returns:
+		ditherDict : *dict*
+			A dictionary containing the amount of area which is overlapping 
+			for each number of exposures in the dither. The keys of the 
+			dictionary will be the number of overlaps included in the area, 
+			and the values will be the amount of that overlap area in square 
+			degrees.
+	"""
+	# The number of overlaps is equal to the number of dithers.
+	dims = len(ditherList)
+
+	# Create a list of cameras with each dither in the ditherList applied
+	cameraList = []
 	for i in range(dims):
-		ccd = utils.CCDclass(coords_list)
-		action_list[i].apply(ccd)
-		CCD_list.append(ccd)
+		cameraCopy = camera.copy()
+		ditherList[i].apply(cameraCopy)
+		cameraList.append(cameraCopy)
 
-	area_arr = []
+	# For each number of possible exposures, calculate the number of dithers
+	ditherDict = {}
 	for dim in range(1,dims+1):
-		area_dim = 0
-		for comb in combinations(CCD_list,dim):
-			area_dim += (return_intersect(comb).difference(return_union(CCD_list,comb))).get_area()
-		area_arr.append((dim,area_dim))
+		areaDim = 0
+		for combinationList in combinations(cameraList, dim):
+			# Intersection of all cameras in the combinationList
+			intersectCam = return_intersect(combinationList)
+			# Union of all cameras in the cameraList less the combinationList 
+			unionCam = return_union(cameraList, combinationList)
+			# Difference between the intersection and the union
+			differenceCam = intersectCam.difference(unionCam)
+			# Add the area of this difference to the total
+			areaDim += differenceCam.get_area()
+			
+		ditherDict[dim] = areaDim
 
-	return area_arr
+	return ditherDict
