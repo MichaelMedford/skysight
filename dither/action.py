@@ -5,14 +5,15 @@
 
 class Action():
 
-	def __init__(self, degrees=0, xoff=0, yoff=0):
+	def __init__(self, degrees=0, ra_offset=0, dec_offset=0):
 		self.degrees = degrees
-		self.xoff = xoff
-		self.yoff = yoff
+		self.ra_offset = ra_offset
+		self.dec_offset = dec_offset
 
 	def apply(self, CCD):
 		CCD.rotate(degrees=self.degrees)
-		CCD.translate(xoff=self.xoff, yoff=self.yoff)
+		CCD.translate(ra_offset=self.ra_offset,
+					  dec_offset=self.dec_offset)
 
 def action_CCDlist(CCDlist, action, name_arr):
 
