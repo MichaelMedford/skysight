@@ -19,118 +19,118 @@ class Camera:
 	"""
 	Class for collection and manipulation of a camera's CCD corner
 	coordinates. A list of CCD corner coordinates is inputted as a 
-	*coords_list*, resulting in a shapely.geometry.multipolygon object 
+	*coordsList*, resulting in a shapely.geometry.multipolygon object 
 	stored in *poly*. This *poly* can be geometrically translated and 
 	rotated to model astronomical dither patterns.
 
 	Attributes:
-		coords_list : *list*
+		coordsList : *list*
 			List of coordinates of the corners of each CCD in the camera. 
-			The *coords_list* must follow these rules:
+			The *coordsList* must follow these rules:
 
 			1) Coordinates are (ra, dec) numeric pairs of the angular 
 			   position of each camera's corners. 
-			2) The *coords_list* must contain at least one CCD. If there 
-			   is only one CCD in the *coords_list*, then it must be passed 
+			2) The *coordsList* must contain at least one CCD. If there 
+			   is only one CCD in the *coordsList*, then it must be passed 
 			   to the Camera as a list of length 1.
-			2) Each CCD in the *coords_list* must contain at least three 
+			2) Each CCD in the *coordsList* must contain at least three 
 			   corners.
-			4) The CCDs in the *coords_list* CANNOT overlap.
+			4) The CCDs in the *coordsList* CANNOT overlap.
 		name : *str*, optional
 			Name by which to identify a Camera.
 
 	Examples:
-		1) For a *coord_list* of two CCDs:
-			coords_list = [ [(0,0),(0,1),(1,1),(1,0)],
+		1) For a *coordsList* of two CCDs:
+			coordsList = [ [(0,0),(0,1),(1,1),(1,0)],
 						[(2,2),(2,3),(3,3),(3,2)] ]
-			camera = Camera(coords_list)
+			camera = Camera(coordsList)
 
-		2) For a *coord_list* of one CCD.
-			coords_list = [ [(0,0),(0,1),(1,1),(1,0)] ]
-			camera = Camera(coords_list)
+		2) For a *coordsList* of one CCD.
+			coordsList = [ [(0,0),(0,1),(1,1),(1,0)] ]
+			camera = Camera(coordsList)
 	"""
-	def __init__(self, coords_list, name = None):
+	def __init__(self, coordsList, name = None):
 
-		if not isinstance(coords_list[0], list):
-			raise TypeError ('coords_list must be a list of coordinates '
+		if not isinstance(coordsList[0], list):
+			raise TypeError ('coordsList must be a list of coordinates '
 							 'for the corners of each CCD in the camera.')
 
 		if name is not None and not isinstance(name, str):
 			raise TypeError ('Camera name must be a string.')
 
-		# Combine corners of the CCDs in the coords_list into one poly
+		# Combine corners of the CCDs in the coordsList into one poly
 		polys = []
-		for coords in coords_list:
+		for coords in coordsList:
 			polys.append(geometry.Polygon(coords))
 		self.poly = cascaded_union(polys)
 		self.name = name
 
 	@property
 	def poly(self):
-		return self._poly
+		return self.Poly
 	
 	@poly.setter
-	def poly(self, new_poly):
+	def poly(self, newPoly):
 		"""
-		Sets the new poly and updates the Camera's coords_list
+		Sets the new poly and updates the Camera's coordsList
 
 		Parameters:
-			new_poly : *shapely.geometry.multipolygon.MultiPolygon*
+			newPoly : *shapely.geometry.multipolygon.MultiPolygon*
 					   or
 					   *shapely.geometry.multipolygon.Polygon*
-				Sets the polygon for this Camera as *new_poly*, as well 
-				as updating the *coords_list*.
+				Sets the polygon for this Camera as *newPoly*, as well 
+				as updating the *coordsList*.
 		"""
-		self._poly = new_poly
-		self.coords_list = self.get_coords_list()
+		self.Poly = newPoly
+		self.coordsList = self.get_coordsList()
 
-	def get_coords_list(self):
+	def get_coordsList(self):
 		"""
-		Returns the *corods_list* for THIS Camera's *poly*. This list will 
-		follow the conventions for a *coords_list* as outlined in the 
+		Returns the *coordsList* for THIS Camera's *poly*. This list will 
+		follow the conventions for a *coordsList* as outlined in the 
 		Camera Attributes.
 		"""
-		return self._get_coords_list(self.poly)
+		return self._get_coordsList(self.poly)
 
-	def _get_coords_list(self, poly):
+	def _get_coordsList(self, poly):
 		"""
-		Returns the *corods_list* for ANY Camera's *poly*. This list will 
-		follow the conventions for a *coords_list* as outlined in the 
+		Returns the *coordsList* for ANY Camera's *poly*. This list will 
+		follow the conventions for a *coordsList* as outlined in the 
 		Camera Attributes.
 
 		Parameters:
 			poly : *shapely.geometry.multipolygon.MultiPolygon*
 				   or
 				   *shapely.geometry.multipolygon.Polygon*
-				Polygon from which a *coords_list* will be calculated.
+				Polygon from which a *coordsList* will be calculated.
 		"""
 		if poly.area == 0:
 			# If Camera is an empty polygon
-			coords_list = [[(0,0),(0,0),(0,0)]]
+			coordsList = [[(0,0),(0,0),(0,0)]]
 
 		elif poly.type == 'MultiPolygon':
 			# If Cameara is a collection of multiple polygons
-			coords_list = []
+			coordsList = []
 			for p in poly:
 				coords = []
 				for x,y in p.exterior.coords:
 					coords.append((x,y))
-				coords_list.append(coords)
+				coordsList.append(coords)
 
 		elif poly.type == 'Polygon':
 			# If Camera is a single polygon
 			coords = []
 			for x,y in poly.exterior.coords:
 				coords.append((x,y))
-			coords_list = [coords]
+			coordsList = [coords]
 
-		return coords_list
+		return coordsList
 
 	def copy(self):
 		"""
 		Returns a copy of the current Camera.
 		"""
-		return Camera(self.coords_list)
+		return Camera(self.coordsList)
 
 	def buffer(self, buffer):
 		"""
@@ -152,13 +152,13 @@ class Camera:
 		"""
 		centroid = self.get_center()
 		polys = []
-		for coords in self.coords_list:
+		for coords in self.coordsList:
 			new_coords = []
-			for (coord_x,coord_y) in coords:
-				coord_x -= centroid[0]
-				coord_x /= np.cos(np.radians(coord_y))
-				coord_x += centroid[0]
-				new_coords.append((coord_x,coord_y))
+			for (coordX,coordY) in coords:
+				coordX -= centroid[0]
+				coordX /= np.cos(np.radians(coordY))
+				coordX += centroid[0]
+				new_coords.append((coordX,coordY))
 			polys.append(geometry.Polygon(new_coords))
 		self.poly = cascaded_union(polys)
 
@@ -171,13 +171,13 @@ class Camera:
 		"""
 		centroid = self.get_center()
 		polys = []
-		for coords in self.coords_list:
+		for coords in self.coordsList:
 			new_coords = []
-			for (coord_x,coord_y) in coords:
-				coord_x -= centroid[0]
-				coord_x *= np.cos(np.radians(coord_y))
-				coord_x += centroid[0]
-				new_coords.append((coord_x,coord_y))
+			for (coordX,coordY) in coords:
+				coordX -= centroid[0]
+				coordX *= np.cos(np.radians(coordY))
+				coordX += centroid[0]
+				new_coords.append((coordX,coordY))
 			polys.append(geometry.Polygon(new_coords))
 		self.poly = cascaded_union(polys)
 
@@ -227,7 +227,7 @@ class Camera:
 		"""
 		center = self.get_center()
 		radius_list = []
-		for coords in self.coords_list:
+		for coords in self.coordsList:
 			for coord in coords:
 				radius = np.sqrt( (coord[0] - center[0])**2. + 
 								  (coord[1] - center[1])**2. )
@@ -254,26 +254,26 @@ class Camera:
 		"""
 		if self.poly.type == 'Polygon':
 			# If Camera is a single polygon
-			x_arr = []
-			y_arr = []
+			xArr = []
+			yArr = []
 			for x,y in self.poly.exterior.coords:
-				x_arr.append(x)
-				y_arr.append(y)
+				xArr.append(x)
+				yArr.append(y)
 		else:
 			# If Camera is a collection of multiple polygons
-			x_arr = []
-			y_arr = []
+			xArr = []
+			yArr = []
 			for poly in self.poly:
 				for x,y in poly.exterior.coords:
-					x_arr.append(x)
-					y_arr.append(y)
+					xArr.append(x)
+					yArr.append(y)
 
-		ra_lim = (min(x_arr),max(x_arr))
-		dec_lim = (min(y_arr),max(y_arr))
+		ra_lim = (min(xArr),max(xArr))
+		dec_lim = (min(yArr),max(yArr))
 
 		return ra_lim, dec_lim
 
-	def get_center(self, ra_offset = 0, dec_offset = 0):
+	def get_center(self, raOffset = 0, decOffset = 0):
 		"""
 		Returns the geometric center of the smallest box which could 
 		surround all of the polygons in the Camera's *poly*. The center 
@@ -282,23 +282,23 @@ class Camera:
 		asymmetry in the Camera's design.
 
 		Parameters:
-			ra_offset : *float*
+			raOffset : *float*
 				The number of degrees by which to offset the *poly* center 
 				in right ascension.
-			dec_offset : *float*
+			decOffset : *float*
 				The number of degrees by which to offset the *poly* center 
 				in declination.
 
 		Returns:
-			center_ra, center_dec : *float*
+			centerRa, centerDec : *float*
 				Two floats at the center location of the Camera's *poly*.
 		"""
 		bounds = self.poly.bounds
-		center_ra = np.mean([bounds[0], bounds[2]]) + ra_offset
-		center_dec = np.mean([bounds[1], bounds[3]]) + dec_offset
-		return center_ra, center_dec
+		centerRa = np.mean([bounds[0], bounds[2]]) + raOffset
+		centerDec = np.mean([bounds[1], bounds[3]]) + decOffset
+		return centerRa, centerDec
 
-	def get_centroid(self, ra_offset = 0, dec_offset = 0):
+	def get_centroid(self, raOffset = 0, decOffset = 0):
 		"""
 		Returns the geometric centroid of the Camera's *poly*, as 
 		calculated by the Shapely package. The centroid is returned in 
@@ -307,31 +307,31 @@ class Camera:
 		Camera's design.
 
 		Parameters:
-			ra_offset : *float*
+			raOffset : *float*
 				The number of degrees by which to offset the *poly* 
 				centroid in right ascension.
-			dec_offset : *float*
+			decOffset : *float*
 				The number of degrees by which to offset the *poly* 
 				centroid in declination.
 
 		Returns:
-			centroid_ra, centroid_dec : *float*
+			centroidRa, centroidDec : *float*
 				Two floats at the centroid location of the Camera's *poly*.
 		"""
 		if self.poly.type == 'Polygon':
 			for x,y in self.poly.centroid.coords:
 				return (x,y)
 		else:
-			centroid_x_list = []
-			centroid_y_list = []
+			centroidXList = []
+			centroidYList = []
 			for poly in self.poly:
 				for x,y in self.poly.centroid.coords:
-					centroid_x_list.append(x)
-					centroid_y_list.append(y)
+					centroidXList.append(x)
+					centroidYList.append(y)
 
-		centroid_ra = np.mean(centroid_x_list) + ra_offset
-		centroid_dec = np.mean(centroid_x_list) + dec_offset
-		return centroid_ra, centroid_dec
+		centroidRa = np.mean(centroidXList) + raOffset
+		centroidDec = np.mean(centroidYList) + decOffset
+		return centroidRa, centroidDec
 
 	def intersect(self, camera):
 		"""
@@ -342,7 +342,7 @@ class Camera:
 		Parameters:
 			camera : *camera.Camera object*
 				An object from the camera.Camera class containing a *poly* 
-				and a *coords_list*.
+				and a *coordsList*.
 
 		Returns:
 			camera : *camera.Camera object*
@@ -350,9 +350,9 @@ class Camera:
 				intersection between this Camera and the *camera* 
 				parameter.
 		"""
-		intersect_poly = self.poly.intersection(camera.poly)
-		coords_list = self._get_coords_list(intersect_poly)
-		return Camera(coords_list)
+		intersectPoly = self.poly.intersection(camera.poly)
+		coordsList = self._get_coordsList(intersectPoly)
+		return Camera(coordsList)
 
 	def union(self, camera):
 		"""
@@ -363,7 +363,7 @@ class Camera:
 		Parameters:
 			camera : *camera.Camera object*
 				An object from the camera.Camera class containing a *poly* 
-				and a *coords_list*.
+				and a *coordsList*.
 
 		Returns:
 			camera : *camera.Camera object*
@@ -371,9 +371,9 @@ class Camera:
 				union between this Camera and the *camera* 
 				parameter.
 		"""
-		union_poly = cascaded_union([self.poly,camera.poly])
-		coords_list = self._get_coords_list(union_poly)
-		return Camera(coords_list)
+		unionPoly = cascaded_union([self.poly,camera.poly])
+		coordsList = self._get_coordsList(unionPoly)
+		return Camera(coordsList)
 
 	def difference(self, camera):
 		"""
@@ -384,7 +384,7 @@ class Camera:
 		Parameters:
 			camera : *camera.Camera object*
 				An object from the camera.Camera class containing a *poly* 
-				and a *coords_list*.
+				and a *coordsList*.
 
 		Returns:
 			camera : *camera.Camera object*
@@ -392,9 +392,9 @@ class Camera:
 				difference between this Camera and the *camera* 
 				parameter.
 		"""
-		difference_poly = self.poly.difference(camera.poly)
-		coords_list = self._get_coords_list(difference_poly)
-		return Camera(coords_list)
+		differencePoly = self.poly.difference(camera.poly)
+		coordsList = self._get_coordsList(differencePoly)
+		return Camera(coordsList)
 
 	def plot(self, ax,
 				   color = 'k',
@@ -424,13 +424,13 @@ class Camera:
 
 		Example:
 			1) For a single Camera object
-				camera = Camera(coords_list)
+				camera = Camera(coordsList)
 				fig,ax = plt.subplots()
 				camera.plot(ax, color='g', alpha=0.3)
 
 			2) For multiple Camera objects
-				camera = Camera(coords_list)
-				camera2 = Camera(coords_list)
+				camera = Camera(coordsList)
+				camera2 = Camera(coordsList)
 				camera2.translate(raOffset=1.0)
 				fig,ax = plt.subplots()
 				camera.plot(ax, color='g', alpha=0.3, xlim=(-2,2), ylim=(-2,2))
@@ -441,15 +441,15 @@ class Camera:
 								  alpha = alpha))
 
 		if xlim == None or ylim == None:
-			xlim_poly, ylim_poly = self.get_limits()
+			xlimPoly, ylimPoly = self.get_limits()
 
 		if xlim == None:
-			ax.set_xlim(xlim_poly)
+			ax.set_xlim(xlimPoly)
 		else:
 			ax.set_xlim(xlim)
 
 		if ylim == None:
-			ax.set_ylim(ylim_poly)
+			ax.set_ylim(ylimPoly)
 		else:
 			ax.set_ylim(ylim)
 
