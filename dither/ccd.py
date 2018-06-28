@@ -89,7 +89,7 @@ class Camera():
 		return CCD(coords_list)
 
 	def buffer(self, buffer):
-		self.set_poly(self.poly.buffer(buffer))
+		self.poly = self.poly.buffer(buffer)
 
 	def expand_ra(self):
 		centroid = self.get_center()
