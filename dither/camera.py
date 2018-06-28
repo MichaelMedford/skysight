@@ -453,6 +453,8 @@ class Camera:
 		else:
 			ax.set_ylim(ylim)
 
+emptyCamera = Camera([[(0,0),(0,0),(0,0)]])
+
 ##############################
 #                            #
 #  Return Known Cameras      #
