@@ -14,5 +14,5 @@ print("shapely: " + shapely.__version__)
 import descartes
 print("descartes imported")
 
-import dither
-print("dither: " + dither.__version__)
+import skysight
+print("skysight: " + skysight.__version__)
