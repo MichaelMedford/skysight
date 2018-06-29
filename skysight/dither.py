@@ -24,9 +24,9 @@ class Slew:
 
 	Examples:
 		1) Applying a Slew to a single camera:
-			dither = Slew(degrees = 10, raOffset = 0.1, decOffset = -0.2)
+			slew = Slew(degrees = 10, raOffset = 0.1, decOffset = -0.2)
 			camera = Camera(coordsList)
-			dither.apply(camera)
+			slew.apply(camera)
 
 		1) Applying a Slew to a list of cameras:
 			slewList = []
@@ -119,7 +119,7 @@ def return_union(cameraList, excludeList = None):
 
 	# If not union has been found, return an empty Camera
 	if unionCam == None:
-		from dither.camera import emptyCamera
+		from skysight.camera import emptyCamera
 		unionCam = emptyCamera
 
 	return unionCam
