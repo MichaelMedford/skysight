@@ -9,6 +9,24 @@ def two_exposures_plot(camera,
 					   slewList,
 					   save = True,
 					   savePath = '.'):
+	"""
+	Demonstration of the calculation performed for a slewList of length 
+	two. Produces a plot of the calculation saved to *savePath*. 
+	*slewList* must contain at least two *dither.Slew* objects.
+
+	Parameters:
+		camera : *camera.Camera* object
+			An object from the camera.Camera class, containing a *poly* 
+			and a *coordsList*.
+		slewList : *list* of *dither.Slew* objects
+			A list of slews from the *dither.Slew* class, each to be 
+			applied to a copy of the *camera*.
+		save : *bool*
+			Saves the produced plot. If set to False, no plot will be 
+			saved to disk.
+		savePath : *str*
+			Disk path to which the plot will be saved.
+	"""
 
 	cameraA = camera.copy()
 	cameraB = camera.copy()
@@ -86,6 +104,24 @@ def three_exposures_plot(camera,
 						 slewList,
 						 save = True,
 						 savePath = '.'):
+	"""
+	Demonstration of the calculation performed for a slewList of length 
+	three. Produces a plot of the calculation saved to *savePath*. 
+	*slewList* must contain at least three *dither.Slew* objects.
+
+	Parameters:
+		camera : *camera.Camera* object
+			An object from the camera.Camera class, containing a *poly* 
+			and a *coordsList*.
+		slewList : *list* of *dither.Slew* objects
+			A list of slews from the *dither.Slew* class, each to be 
+			applied to a copy of the *camera*.
+		save : *bool*
+			Saves the produced plot. If set to False, no plot will be 
+			saved to disk.
+		savePath : *str*
+			Disk path to which the plot will be saved.
+	"""
 
 	cameraA = camera.copy()
 	cameraB = camera.copy()
