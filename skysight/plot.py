@@ -5,7 +5,10 @@
 
 import matplotlib.pyplot as plt
 
-def two_exposures_plot(camera, slewList, save = True):
+def two_exposures_plot(camera,
+					   slewList,
+					   save = True,
+					   savePath = '.'):
 
 	cameraA = camera.copy()
 	cameraB = camera.copy()
@@ -76,11 +79,13 @@ def two_exposures_plot(camera, slewList, save = True):
 			 horizontalalignment = 'center')
 
 	if save:
-		plot_dir = os.path.dirname(os.path.realpath(__file__)) + "/plots"
-		plt.savefig(plot_dir + '/two_exposures_plot.png')
+		plt.savefig(savePath + '/two_exposures_plot.png')
 
 
-def three_exposures_plot(camera, slewList, save = True):
+def three_exposures_plot(camera,
+						 slewList,
+						 save = True,
+						 savePath = '.'):
 
 	cameraA = camera.copy()
 	cameraB = camera.copy()
@@ -219,6 +224,4 @@ def three_exposures_plot(camera, slewList, save = True):
 			 horizontalalignment = 'center')
 
 	if save:
-		import os
-		plot_dir = os.path.dirname(os.path.realpath(__file__)) + "/plots"
-		plt.savefig(plot_dir + '/three_exposures_plot.png')
+		plt.savefig(savePath + '/three_exposures_plot.png')
