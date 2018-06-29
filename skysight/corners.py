@@ -5,7 +5,7 @@
 
 import os
 
-data_dir = os.path.dirname(os.path.realpath(__file__))+"/data"
+data_dir = os.path.dirname(os.path.realpath(__file__)) + "/data"
 
 def load_machoCorners():
 	"""
