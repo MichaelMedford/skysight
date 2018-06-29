@@ -1,16 +1,16 @@
 #! /usr/bin/env python
 #
 
-""" Dither translations and/or rotations to be applied to a a single Camera
+""" Slew translations and/or rotations to be applied to a a single Camera
 or to a list of Cameras. """
 
 from itertools import combinations
 
-class Dither:
+class Slew:
 	"""
-	Class for the manipulation of Camera objects through a Dither 
-	translation or rotation. Each Camera object is created from the Camera 
-	class in camera.py and can be either translated or rotated by a Dither.
+	Class for the geometric manipulation of Camera objects. Each Camera 
+	object is created from the Camera class in camera.py and can be either 
+	translated or rotated by a Slew.
 
 	Attributes:
 		degrees : *float*
@@ -23,15 +23,15 @@ class Dither:
 			declination.
 
 	Examples:
-		1) Applying a Dither to a single camera:
-			dither = Dither(degrees = 10, raOffset = 0.1, decOffset = -0.2)
+		1) Applying a Slew to a single camera:
+			dither = Slew(degrees = 10, raOffset = 0.1, decOffset = -0.2)
 			camera = Camera(coordsList)
 			dither.apply(camera)
 
-		1) Applying a Dither to a list of cameras:
+		1) Applying a Slew to a list of cameras:
 			dither_list = []
-			dither_list.append(Dither(degrees = 10, raOffset = 0.1, decOffset = -0.2))
-			dither_list.append(Dither(degrees = 20, raOffset = -0.1, decOffset = 0.2))
+			dither_list.append(Slew(degrees = 10, raOffset = 0.1, decOffset = -0.2))
+			dither_list.append(Slew(degrees = 20, raOffset = -0.1, decOffset = 0.2))
 			
 			camera_list = []
 			for dither in dither_list:
@@ -47,7 +47,7 @@ class Dither:
 
 	def apply(self, camera):
 		"""
-		Applies the attributes of the Dither to the *camera*.
+		Applies the attributes of the Slew to the *camera*.
 
 		Parameters:
 			camera : *camera.Camera* object
@@ -124,18 +124,17 @@ def return_union(cameraList, excludeList = None):
 
 	return unionCam
 
-def return_ditherDict(camera, ditherList):
+def return_ditherDict(camera, slewList):
 	"""
 	Returns a dictionary with the amount of area which is overlapping for 
 	each number of exposures in the dither.
 
 	Parameters:
 		camera : *camera.Camera*
-			A camera which will be run through the ditherList.
-		ditherList : *list* of *camera.Camera* objects
-			A list of cameras from the camera.Camera class, each containing 
-			a *poly* and a *coordsList*. These cameras will not be included 
-			in the calculated camera union.
+			A camera which will be run through the slewList.
+		slewList : *list* of *dither.Slew* objects
+			A list of slews from the *dither.Slew* class, each to be 
+			applied to a copy of the *camera*.
 
 	Returns:
 		ditherDict : *dict*
@@ -145,17 +144,18 @@ def return_ditherDict(camera, ditherList):
 			and the values will be the amount of that overlap area in square 
 			degrees.
 	"""
-	# The number of overlaps is equal to the number of dithers.
-	dims = len(ditherList)
+	# The number of overlaps is equal to the number of slews.
+	dims = len(slewList)
 
-	# Create a list of cameras with each dither in the ditherList applied
+	# Create a list of cameras with each dither in the slewList applied
 	cameraList = []
 	for i in range(dims):
 		cameraCopy = camera.copy()
-		ditherList[i].apply(cameraCopy)
+		slewList[i].apply(cameraCopy)
 		cameraList.append(cameraCopy)
 
-	# For each number of possible exposures, calculate the number of dithers
+	# For each number of possible exposures, calculate the amount of area 
+	# overlapping in the dither pattern
 	ditherDict = {}
 	for dim in range(1,dims+1):
 		areaDim = 0
