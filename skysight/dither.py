@@ -33,11 +33,11 @@ class Slew:
 			slewList.append(Slew(degrees = 10, raOffset = 0.1, decOffset = -0.2))
 			slewList.append(Slew(degrees = 20, raOffset = -0.1, decOffset = 0.2))
 			
-			camera_list = []
+			cameraList = []
 			for slew in slewList:
 				camera = Camera(coordsList)
 				slew.apply(camera)
-				camera_list.append(camera)
+				cameraList.append(camera)
 	"""
 
 	def __init__(self, degrees = 0, raOffset = 0, decOffset = 0):
