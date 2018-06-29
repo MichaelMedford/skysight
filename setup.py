@@ -26,6 +26,8 @@ if __name__ == "__main__":
           url=URL,
           version=VERSION,
           install_requires=['numpy','matplotlib','astropy','shapely','descartes'],
+          setup_requires=['pytest-runner'],
+          tests_require=['pytest'],
           packages=['skysight'],
           package_data={'skysight': ['data/*']},
           classifiers=[
