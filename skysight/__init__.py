@@ -6,3 +6,4 @@ __version__ ="0.2.dev0"
 from . import dither
 from . import camera
 from . import corners
+from . import plot

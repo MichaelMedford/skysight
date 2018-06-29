@@ -219,5 +219,6 @@ def three_exposures_plot(camera, slewList, save = True):
 			 horizontalalignment = 'center')
 
 	if save:
+		import os
 		plot_dir = os.path.dirname(os.path.realpath(__file__)) + "/plots"
 		plt.savefig(plot_dir + '/three_exposures_plot.png')
