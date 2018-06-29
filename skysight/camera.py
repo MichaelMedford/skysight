@@ -477,7 +477,7 @@ def return_machoCamera():
 	object.
 	"""
 	from skysight import corners
-	corners = corners.load_macho_corners()
+	corners = corners.load_machoCorners()
 	machoCamera = Camera([corners], name = 'macho')
 	return machoCamera
 
@@ -487,7 +487,7 @@ def return_hscCamera():
 	camera.Camera object.
 	"""
 	from skysight import corners
-	corners = corners.load_hsc_corners()
+	corners = corners.load_hscCorners()
 	hscCamera = Camera(corners, name = 'hsc')
 	return hscCamera
 
@@ -497,6 +497,6 @@ def return_decamCamera():
 	camera.Camera object.
 	"""
 	from skysight import corners
-	corners = corners.load_decam_corners()
+	corners = corners.load_decamCorners()
 	decamCamera = Camera(corners, name = 'decam')
 	return decamCamera
