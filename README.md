@@ -1,12 +1,12 @@
-# dither
-A package for testing the properties of astronomical dither patterns
+# skysight
+A package for determining the optimal astronomical dither strategy
 
 # Installation
 
 Navigate to the directory where you want to save this folder. Then execute:
 ```bash
-git clone https://github.com/MichaelMedford/dither.git
-cd dither
+git clone https://github.com/MichaelMedford/skysight.git
+cd skysight
 python setup.py install
 ```
 
