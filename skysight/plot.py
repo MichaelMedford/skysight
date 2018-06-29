@@ -5,7 +5,7 @@
 
 import matplotlib.pyplot as plt
 
-def two_exposures_plot(camera, slewList):
+def two_exposures_plot(camera, slewList, save = True):
 
 	cameraA = camera.copy()
 	cameraB = camera.copy()
@@ -75,8 +75,12 @@ def two_exposures_plot(camera, slewList):
 			 fontsize = 15,
 			 horizontalalignment = 'center')
 
+	if save:
+		plot_dir = os.path.dirname(os.path.realpath(__file__)) + "/plots"
+		plt.savefig(plot_dir + '/two_exposures_plot.png')
 
-def three_exposures_plot(camera, slewList):
+
+def three_exposures_plot(camera, slewList, save = True):
 
 	cameraA = camera.copy()
 	cameraB = camera.copy()
@@ -213,3 +217,7 @@ def three_exposures_plot(camera, slewList):
 			 'One Exposure  %.2f deg$^2$' % area1,
 			 fontsize = 10,
 			 horizontalalignment = 'center')
+
+	if save:
+		plot_dir = os.path.dirname(os.path.realpath(__file__)) + "/plots"
+		plt.savefig(plot_dir + '/three_exposures_plot.png')
