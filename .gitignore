@@ -1,10 +1,13 @@
+# Mac files
+*.DS_Store*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
 
 # distutils sdist files
-MANIFEST*
+MANIFEST
 build
 dist
 *.egg-info
