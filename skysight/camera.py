@@ -476,7 +476,7 @@ def return_machoCamera():
 	Returns the CCD coordinates of the MACHO camera as a camera.Camera 
 	object.
 	"""
-	from dither import corners
+	from skysight import corners
 	corners = corners.load_macho_corners()
 	machoCamera = Camera([corners], name = 'macho')
 	return machoCamera
@@ -486,7 +486,7 @@ def return_hscCamera():
 	Returns the CCD coordinates of the Hyper-Supreme Camera as a 
 	camera.Camera object.
 	"""
-	from dither import corners
+	from skysight import corners
 	corners = corners.load_hsc_corners()
 	hscCamera = Camera(corners, name = 'hsc')
 	return hscCamera
@@ -496,7 +496,7 @@ def return_decamCamera():
 	Returns the CCD coordinates of the Dark Energy Camera as a 
 	camera.Camera object.
 	"""
-	from dither import corners
+	from skysight import corners
 	corners = corners.load_decam_corners()
 	decamCamera = Camera(corners, name = 'decam')
 	return decamCamera
