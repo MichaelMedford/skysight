@@ -181,19 +181,29 @@ class Camera:
 			polys.append(geometry.Polygon(new_coords))
 		self.poly = cascaded_union(polys)
 
-	def rotate(self, degrees=0):
+	def rotate(self, degrees = 0, origin = True):
 		"""
-		Rotates the Camera's *poly* by *degrees*. This is a rotation around 
-		the origin (0,0), not around each polygon's center. Prior to and 
-		after rotation, *poly* is adjusted to account for spherical 
-		distrotion effects at different declinations.
+		Rotates the Camera's *poly* by *degrees*. This is a rotation 
+		around each polygon's center, not the origin (0,0). Rotation 
+		can be performed around the origin by setting the *origin* flag to 
+		True. Prior to and after rotation, *poly* is adjusted to account 
+		for spherical distrotion effects at different declinations.
 
 		Parameters:
 			degrees : *float*
-				The number of degrees by which to rotate *poly*.
+				The number of degrees by which to rotate *poly*. Positive 
+				angles are counter-clockwise and negative are clockwise 
+				rotations.
+			origin : *bool*
+				Rotates the Camera's *poly* around the origin if set to True. 
+				If set to False, rotation will be performed around the 
+				center of the bounding box around the Camera's *poly*.
 		"""
 		self.collapse_ra()
-		self.poly = affinity.rotate(self.poly, degrees)
+		if origin:
+			self.poly = affinity.rotate(self.poly, degrees, origin = (0,0))
+		else:
+			self.poly = affinity.rotate(self.poly, degrees)
 		self.expand_ra()
 
 	def translate(self, raOffset = 0, decOffset = 0):
