@@ -29,14 +29,14 @@ class Slew:
 			dither.apply(camera)
 
 		1) Applying a Slew to a list of cameras:
-			dither_list = []
-			dither_list.append(Slew(degrees = 10, raOffset = 0.1, decOffset = -0.2))
-			dither_list.append(Slew(degrees = 20, raOffset = -0.1, decOffset = 0.2))
+			slewList = []
+			slewList.append(Slew(degrees = 10, raOffset = 0.1, decOffset = -0.2))
+			slewList.append(Slew(degrees = 20, raOffset = -0.1, decOffset = 0.2))
 			
 			camera_list = []
-			for dither in dither_list:
+			for slew in slewList:
 				camera = Camera(coordsList)
-				dither.apply(camera)
+				slew.apply(camera)
 				camera_list.append(camera)
 	"""
 
