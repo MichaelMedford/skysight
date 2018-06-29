@@ -115,7 +115,7 @@ def return_union(cameraList, excludeList = None):
 		if unionCam == None: # Initiates the unionCam variable
 			unionCam = camera
 		else:
-			unionCam = unionCam.union(c)
+			unionCam = unionCam.union(camera)
 
 	# If not union has been found, return an empty Camera
 	if unionCam == None:
