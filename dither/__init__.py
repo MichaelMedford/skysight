@@ -3,6 +3,6 @@
 
 __version__ ="0.1.dev0"
 
-from . import action
+from . import dither
 from . import camera
 from . import corners
