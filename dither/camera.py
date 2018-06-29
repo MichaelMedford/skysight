@@ -471,32 +471,32 @@ emptyCamera = Camera([[(0,0),(0,0),(0,0)]])
 #                            #
 ##############################
 
-def return_macho_camera():
+def return_camera_macho():
 	"""
 	Returns the CCD coordinates of the MACHO camera as a camera.Camera 
 	object.
 	"""
 	from dither import corners
 	corners = corners.load_macho_corners()
-	camera = Camera([corners], name = 'macho')
-	return camera
+	camera_macho = Camera([corners], name = 'macho')
+	return camera_macho
 
-def return_hsc_camera():
+def return_camera_hsc():
 	"""
 	Returns the CCD coordinates of the Hyper-Supreme Camera as a 
 	camera.Camera object.
 	"""
 	from dither import corners
 	corners = corners.load_hsc_corners()
-	camera = Camera(corners, name = 'hsc')
-	return camera
+	camera_hsc = Camera(corners, name = 'hsc')
+	return camera_hsc
 
-def return_decam_camera():
+def return_camera_decam():
 	"""
 	Returns the CCD coordinates of the Dark Energy Camera as a 
 	camera.Camera object.
 	"""
 	from dither import corners
 	corners = corners.load_decam_corners()
-	camera = Camera(corners, name = 'decam')
-	return camera
+	camera_decam = Camera(corners, name = 'decam')
+	return camera_decam
