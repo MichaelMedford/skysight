@@ -132,7 +132,7 @@ class Camera:
 		"""
 		return Camera(self.coordsList)
 
-	def buffer(self, buffer):
+	def buffer(self, buffer, resolution=16):
 		"""
 		Expands the coundaries of each polygon in the Camera's *poly* 
 		by the size of the *buffer*.
@@ -140,8 +140,11 @@ class Camera:
 			buffer : *float*
 				The number of degrees by which each polygon in *poly* 
 				will be expanded.
+			resolution : *int*
+				The number of points added to the camera *poly* to 
+				approximate the additional buffer
 		"""
-		self.poly = self.poly.buffer(buffer)
+		self.poly = self.poly.buffer(buffer, resolution)
 
 	def expand_ra(self):
 		"""
