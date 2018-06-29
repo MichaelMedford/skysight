@@ -9,7 +9,7 @@ from itertools import combinations
 class Slew:
 	"""
 	Class for the geometric manipulation of Camera objects. Each Camera 
-	object is created from the Camera class in camera.py and can be either 
+	object is created from the *camera.Camera* class and can be either 
 	translated or rotated by a Slew.
 
 	Attributes:
