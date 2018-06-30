@@ -1,2 +1,4 @@
 include README.md LICENSE
-recursive-include skysight *
+include skysight *.py
+include skysight/data *
+include tests
