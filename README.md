@@ -3,10 +3,13 @@ A package for determining the optimal astronomical dither strategy
 
 # Installation
 
-Navigate to the directory where you want to save this folder. Then execute:
+This installation assumes that you have a copy of conda installed and in 
+your PATH. Navigate to the directory where you want to save this 
+folder. Then execute:
 ```bash
 git clone https://github.com/MichaelMedford/skysight.git
 cd skysight
+conda install --yes --file requirements.txt
 python setup.py install
 ```
 
