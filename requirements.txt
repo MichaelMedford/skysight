@@ -1,5 +1,6 @@
-astropy=2.0.2=py36hf79c81d_4
-descartes=1.1.0=py_1
-matplotlib=2.1.0=py36h5068139_0
-numpy=1.13.3=py36h2cdce51_0
-shapely=1.6.4=py36h164cb2d_1
+astropy=2.0.2
+descartes=1.1.0
+matplotlib=2.1.0
+numpy=1.13.3
+pytest=3.2.1
+shapely=1.6.4
