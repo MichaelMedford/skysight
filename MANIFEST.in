@@ -1,5 +1,6 @@
 include README.md LICENSE
 include skysight *.py
 include skysight/data *
+recursive-include test *
 global-exclude *.pyc
 global-exclude .DS_Store
