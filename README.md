@@ -14,7 +14,7 @@ python setup.py install
 
 Confirm that all packages are correctly installed.
 ```bash
-python tests/check_versions.py
+python test/check_versions.py
 ```
 Run tests to make sure that everything is working correctly.
 ```bash

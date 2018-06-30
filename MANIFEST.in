@@ -1,4 +1,4 @@
 include README.md LICENSE
 include skysight *.py
 include skysight/data *
-include tests
+include tests *.py
