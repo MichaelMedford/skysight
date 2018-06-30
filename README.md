@@ -16,3 +16,7 @@ Confirm that all packages are correctly installed.
 ```bash
 python checks.py
 ```
+Run tests to make sure that everything is working correctly.
+```bash
+python setup.py tests
+```
