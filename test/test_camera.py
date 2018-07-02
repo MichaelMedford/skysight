@@ -3,6 +3,11 @@ import pytest
 from skysight import camera
 import numpy as np
 
+def test_camera_import():
+	cam = camera.return_decamCamera()
+	cam = camera.return_decamCamera()
+	cam = camera.return_hscCamera()
+
 @pytest.fixture
 def emptyCoords():
 	"""Returns a unit square camera with LL corner at the origin."""
