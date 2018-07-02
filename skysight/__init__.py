@@ -2,7 +2,7 @@
 #
 
 __license__ = "MIT"
-__version__ ="0.3.dev0"
+__version__ ="1.0"
 __author__ = "Michael Medford"
 __email__ = "MichaelMedford@berkeley.edu"
 
