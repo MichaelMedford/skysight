@@ -78,7 +78,7 @@ def return_intersect(cameraList):
         intersectCam : *camera.Camera* object
             An object from the camera.Camera class that is the
             intersection between all cameras in the cameraList. If there
-            exists no interesction between any cameras in the camerList,
+            exists no intersection between any cameras in the camerList,
             an empty Camera will be returned.
     """
     intersectCam = None
