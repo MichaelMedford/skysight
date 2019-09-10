@@ -23,3 +23,12 @@ Run tests to make sure that everything is working correctly.
 ```bash
 python setup.py test
 ```
+
+# Requirements
+* Python 3.6
+
+# Authors
+* Michael Medford <MichaelMedford@berkeley.edu>
+
+# Citation
+[![DOI](https://zenodo.org/badge/139060412.svg)](https://zenodo.org/badge/latestdoi/139060412)
